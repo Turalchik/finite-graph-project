@@ -1,6 +1,6 @@
-from src.load_graph import load_graph
+from src.load_graph import load_undirected_graph
 
 
 if __name__ == '__main__':
-    print(load_graph("./datasets/small_sample.txt"))
+    print(load_undirected_graph("./datasets/small_sample.txt"))
 

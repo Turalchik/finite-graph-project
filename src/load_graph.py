@@ -1,6 +1,8 @@
 from typing import List, Dict
+from src.graph import Graph
 
-def load_graph(filename: str) -> Dict[int, List[int]]:
+
+def load_undirected_graph(filename: str) -> Graph:
     with open(filename) as file:
         line: str = file.readline()
 
@@ -8,25 +10,17 @@ def load_graph(filename: str) -> Dict[int, List[int]]:
         while line and line[0] == "#":
             line = file.readline()
 
-        graph: Dict[int, List[int]] = {}
+        graph: Graph = Graph()
         while line:
             vertexes = line.split(" ")
 
             if len(vertexes) != 2:
-                return {}
+                return None
 
             v1, v2 = int(vertexes[0]), int(vertexes[1])
-            append_edge_into_graph(graph, v1, v2)
-            append_edge_into_graph(graph, v2, v1)
+            graph.add_edge(v1, v2)
+            graph.add_edge(v2, v1)
 
             line = file.readline()
 
         return graph
-
-
-def append_edge_into_graph(graph: Dict[int, List[int]], from_: int, to_: int) -> None:
-
-    if from_ in graph:
-        graph[from_].append(to_)
-    else:
-        graph[from_] = [to_]
