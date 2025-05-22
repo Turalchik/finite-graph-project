@@ -83,12 +83,12 @@ public:
 			s = internalVertixName(s);
 			t = internalVertixName(t);
 			if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
-				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+				throw std::exception("One of the vertices (s, t) doesn't exist.");
 			}
 		}
 		else {
 			if (s >= vertixNumber() || t >= vertixNumber()) {
-				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+				throw std::exception("One of the vertices (s, t) doesn't exist.");
 			}
 		}
 
