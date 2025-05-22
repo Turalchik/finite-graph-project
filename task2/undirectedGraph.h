@@ -25,7 +25,7 @@ class UndirectedGraph {
 public:
 	static const uint32 maxVertixNumber = UINT32_MAX;
 
-	UndirectedGraph(const std::string& path) : currentRenamingId_(0){
+	UndirectedGraph(const std::string& path) : currentRenamingId_(0) {
 		std::ifstream inFile(path);
 		if (!inFile.is_open()) {
 			throw std::exception("File hasn't been opened.");
@@ -53,6 +53,8 @@ public:
 				graph_[toId].push_back(fromId);
 			}
 		}
+
+
 		inFile.close();
 	}
 
@@ -77,7 +79,7 @@ public:
 	}
 	
 	uint32 findShortestPath(uint32 s, uint32 t, bool internalVertixRepresentationPassed = false) const {
-		if (!useInternalVertixRepresentation) {
+		if (!internalVertixRepresentationPassed) {
 			s = internalVertixName(s);
 			t = internalVertixName(t);
 			if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
