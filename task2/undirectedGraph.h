@@ -76,7 +76,7 @@ public:
 		return graph_[v].size();
 	}
 	
-	uint32 findShortestPath(uint32 s, uint32 t, bool useInternalVertixRepresentation = false) const {
+	uint32 findShortestPath(uint32 s, uint32 t, bool internalVertixRepresentationPassed = false) const {
 		if (!useInternalVertixRepresentation) {
 			s = internalVertixName(s);
 			t = internalVertixName(t);
