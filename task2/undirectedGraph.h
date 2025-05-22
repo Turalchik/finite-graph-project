@@ -76,11 +76,18 @@ public:
 		return graph_[v].size();
 	}
 	
-	uint32 findShortestPath(uint32 s, uint32 t) const {
-		s = internalVertixName(s);
-		t = internalVertixName(t);
-		if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
-			throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+	uint32 findShortestPath(uint32 s, uint32 t, bool useInternalVertixRepresentation = false) const {
+		if (!useInternalVertixRepresentation) {
+			s = internalVertixName(s);
+			t = internalVertixName(t);
+			if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
+				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+			}
+		}
+		else {
+			if (s >= vertixNumber() || t >= vertixNumber()) {
+				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+			}
 		}
 
 		std::vector<uint32> dist(vertixNumber(), maxVertixNumber);
