@@ -81,12 +81,10 @@ public:
 	* @param[in] graph: contains graph, which is considered as undirected
 	* @param[out] landmarks: arbitrary vector of any size and elements in it, 
 	which will be filled by k landmarks with internal vertix indices
-	* @param[in] k: desired number of landmarks, if k == 0, landmarks.size() == 0 guaranteed
+	* @param[in] k: desired number of landmarks, if k == 0, landmarks.size() == 0 guaranteed, k = min(k, graph.vertixNumber());
 	*/
 	static void highestDegreeSelection(const UndirectedGraph& graph, std::vector<uint32>& landmarks, uint32 k) {
-		if (k > graph.vertixNumber()) {
-			throw std::exception("Number of landmarks can't be bigger than the number of vertices in the graph.");
-		}
+		k = std::min(k, graph.vertixNumber());
 		if (k == 0) {
 			landmarks.resize(0);
 			return;
@@ -103,13 +101,11 @@ public:
 	* @param[out] landmarks: arbitrary vector of any size and elements in it, 
 	which will be filled by k landmarks with internal vertix indices
 	* @param[in] M: desired number of shortest paths will be collected, if M == 0, highestDegreeSelection applied instead
-	* @param[in] k: desired number of landmarks, if k == 0, landmarks.size() == 0 guaranteed
+	* @param[in] k: desired number of landmarks, if k == 0, landmarks.size() == 0 guaranteed, k = min(k, graph.vertixNumber());
 	* @return actual number of landmarks been inserted using shortest paths, the rest vertices were inserted by highestDegreeSelection
 	*/
 	static uint32 bestCoverageSelection(const UndirectedGraph& graph, std::vector<uint32>& landmarks, uint32 M, uint32 k) {
-		if (k > graph.vertixNumber()) {
-			throw std::exception("Number of landmarks can't be bigger than the number of vertices in the graph.");
-		}
+		k = std::min(k, graph.vertixNumber());
 		if (k == 0) {
 			landmarks.resize(0);
 			return 0;
@@ -196,13 +192,11 @@ public:
 	/*
 	* @param[in] graph: contains graph, which is considered as undirected
 	* @param[out] landmarks: landmarks: arbitrary vector of any size and elements in it, 
-	which will be filled by k landmarks with internal vertix indices
+	which will be filled by k landmarks with internal vertix indices, k = min(k, graph.vertixNumber());
 	* @param[in] k: desired number of landmarks, if k == 0, landmarks.size() == 0 guaranteed
 	*/
 	static void randomSelection(const UndirectedGraph& graph, std::vector<uint32>& landmarks, uint32 k) {
-		if (k > graph.vertixNumber()) {
-			throw std::exception("Number of landmarks can't be bigger than the number of vertices in the graph.");
-		}
+		k = std::min(k, graph.vertixNumber());
 		if (k == 0) {
 			landmarks.resize(0);
 			return;
