@@ -2,7 +2,7 @@
 #define LANDMARKSBASICALGORITHM
 
 
-#include "landmarksSelection.h"
+#include "undirectedGraph.h"
 #include <omp.h>
 
 
@@ -33,11 +33,11 @@ public:
 	* @param[in] k: desired number of landmarks, k = min(k, graph.vertixNumber());
 	* @param[in] M: desired number of shortest paths will be collected, specify only if best-coverage method selected
 	*/
-	LandmarksBasic(const UndirectedGraph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) : 
+	LandmarksBasic(const UndirectedGraph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) :
 		distances_(k, std::vector<uint32>(graph.vertixNumber(), UndirectedGraph::maxVertixNumber)) {
-		
+
 		std::vector<uint32> landmarks;
-		LandmarksSelection::chooseMethodByString(graph, landmarks, landmarkSelectionMethod, k, M);
+		graph.chooseMethodByString(landmarks, landmarkSelectionMethod, k, M);
 
 		omp_set_num_threads(omp_get_max_threads());
 #pragma omp parallel for
@@ -66,7 +66,7 @@ public:
 		uint32 minDist = UndirectedGraph::maxVertixNumber;
 		uint32 currentDist;
 		for (uint32 i = 0; i < distances_.size(); ++i) {
-			if (distances_[i][s] < UndirectedGraph::maxVertixNumber && 
+			if (distances_[i][s] < UndirectedGraph::maxVertixNumber &&
 				distances_[i][t] < UndirectedGraph::maxVertixNumber) {
 				currentDist = distances_[i][s] + distances_[i][t];
 				if (minDist > currentDist) {
@@ -80,4 +80,3 @@ public:
 
 
 #endif
-

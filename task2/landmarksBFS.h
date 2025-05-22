@@ -1,7 +1,7 @@
 #ifndef LANDMARKSBFSALGORITHM
 #define LANDMARKSBFSALGORITHM
 
-#include "landmarksSelection.h"
+#include "undirectedGraph.h"
 #include <omp.h>
 
 class LandmarksBFS {
@@ -66,7 +66,7 @@ public:
 	LandmarksBFS(const UndirectedGraph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) :
 		SPTs_(k, std::vector<uint32>(graph.vertixNumber(), UndirectedGraph::maxVertixNumber)) {
 
-		LandmarksSelection::chooseMethodByString(graph, landmarks_, landmarkSelectionMethod, k, M);
+		graph.chooseMethodByString(landmarks_, landmarkSelectionMethod, k, M);
 
 		omp_set_num_threads(omp_get_max_threads());
 #pragma omp parallel for
@@ -110,4 +110,3 @@ public:
 
 
 #endif
-

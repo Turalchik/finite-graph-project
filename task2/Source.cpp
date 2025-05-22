@@ -2,16 +2,17 @@
 #include "landmarksBasic.h"
 #include "landmarksBFS.h"
 #include<chrono>
+
 using namespace std::chrono;
 
 int main() {
     try {
         auto start = high_resolution_clock::now();
         UndirectedGraph graph("datasets/undirected/ca-coauthors-dblp.txt");
-        LandmarksBFS basic(graph, "best-coverage", 300, 1000);
         auto stop = high_resolution_clock::now();
         std::cout << "File loaded for: " << double(duration_cast<microseconds>(stop - start).count()) / 1e6 << "s\n";
-        
+        LandmarksBFS basic(graph, "best-coverage", 300, 1000);
+
         double mae = 0;
         double mape = 0;
         int n = 500;
@@ -32,11 +33,11 @@ int main() {
         }
         stop = high_resolution_clock::now();
         std::cout << "Loop worked for: " << double(duration_cast<microseconds>(stop - start).count()) / 1e6 << "s\n";
-        std::cout << "MAE: " << mae / n << '\n' << "MAPE: " << mape / n ;
+        std::cout << "MAE: " << mae / n << '\n' << "MAPE: " << mape / n;
     }
     catch (std::exception& ex) {
         std::cout << ex.what();
     }
-    
+
     return 0;
 }
