@@ -60,7 +60,7 @@ public:
 	/*
 	* @param[in] graph: contains graph, which is considered as undirected
 	* @param[in] landmarkSelectionMethod: options - LandmarksSelection::availableSelectionMethods
-	* @param[in] k: desired number of landmarks
+	* @param[in] k: desired number of landmarks, k = min(k, graph.vertixNumber());
 	* @param[in] M: desired number of shortest paths will be collected, specify only if best-coverage method selected
 	*/
 	LandmarksBFS(const UndirectedGraph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) :
