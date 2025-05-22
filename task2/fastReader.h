@@ -29,6 +29,9 @@ public:
         std::ios_base::sync_with_stdio(false);
         std::cin.tie(nullptr);
         file_.open(filename, std::ios::binary);
+        if (!file_.is_open()) {
+            throw std::runtime_error("File wasn't opened.");
+        }
         buffer_ = new char[bufferSize_];
         fillBuffer_();
     }
