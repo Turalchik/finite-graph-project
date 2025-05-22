@@ -8,7 +8,6 @@ typedef unsigned long long uint64;
 #include <fstream>
 #include <vector>
 #include <string>
-#include <cstdio>   
 
 class FastGraphReader {
     std::ifstream file_;
