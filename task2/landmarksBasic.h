@@ -46,14 +46,21 @@ public:
 		}
 	}
 
-	uint32 computeApproximateDistance(const UndirectedGraph& graph, uint64 s, uint64 t) const {
+	uint32 computeApproximateDistance(const UndirectedGraph& graph, uint64 s, uint64 t, bool internalVertixRepresentationPassed = false) const {
 		if (s == t) {
 			return 0;
 		}
-		s = graph.internalVertixName(s);
-		t = graph.internalVertixName(t);
-		if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
-			throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+		if (!internalVertixRepresentationPassed) {
+			s = graph.internalVertixName(s);
+			t = graph.internalVertixName(t);
+			if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
+				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+			}
+		}
+		else {
+			if (s >= graph.vertixNumber() || t >= graph.vertixNumber()) {
+				throw std::exception(std::string("One of the vertices (s, t) doesn't exist.").c_str());
+			}
 		}
 
 		uint32 minDist = UndirectedGraph::maxVertixNumber;
