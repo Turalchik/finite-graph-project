@@ -117,7 +117,7 @@ int main(int argc, char** argv)
 
     read_graph(input, nodes, edges, edges_dir, directed, adj, adj_dir, renamed);
 
-    printAdjacencyList(adj, nodes, edges, directed, outfile1);
+    printAdjacencyList(adj, nodes, edges, false, outfile1);
     if (directed) {
         std::string path2 = argv[1];
         path2.erase(path2.size() - 4);
