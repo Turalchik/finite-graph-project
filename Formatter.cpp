@@ -123,7 +123,7 @@ int main(int argc, char** argv)
         path2.erase(path2.size() - 4);
         path2 += "_adj_directed.txt";
         std::ofstream outfile2(path2);
-        printAdjacencyList(adj_dir, nodes, edges, directed, outfile2);
+        printAdjacencyList(adj_dir, nodes, edges_dir, directed, outfile2);
     }
     printKey(renamed, outfile3);
     return 0;
