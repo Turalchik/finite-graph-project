@@ -49,11 +49,12 @@ unsigned long long find_in_renamed(unsigned long long node, std::vector<unsigned
     return ans;
 }
 
-void read_graph(std::ifstream& input, size_t& nodes, size_t& edges, bool& directed, std::vector<std::vector<unsigned long long>>& adj, std::vector<std::vector<unsigned long long>>& adj_dir, std::vector<unsigned long long>& renamed) {
+void read_graph(std::ifstream& input, size_t& nodes, size_t& edges, size_t& edges_dir, bool& directed, std::vector<std::vector<unsigned long long>>& adj, std::vector<std::vector<unsigned long long>>& adj_dir, std::vector<unsigned long long>& renamed) {
 
     input >> nodes;
     input >> edges;
     unsigned long long edge_counter = 0;
+    unsigned long long edge_counter_dir = 0;
     input.get();
     if (static_cast<char>(input.get()) == 'd') {
         directed = true;
@@ -73,6 +74,7 @@ void read_graph(std::ifstream& input, size_t& nodes, size_t& edges, bool& direct
     for (size_t i = 0; i < edges; ++i) {
         input >> a;
         input >> b;
+
         a = find_in_renamed(a, renamed, counter);
         b = find_in_renamed(b, renamed, counter);
 
@@ -83,12 +85,13 @@ void read_graph(std::ifstream& input, size_t& nodes, size_t& edges, bool& direct
         if (!in_vector(a, adj[b])) {
             adj[b].push_back(a);
         }
-
-        if (directed && !in_vector(b, adj[a])) {
+        if (directed && !in_vector(b, adj_dir[a])) {
             adj_dir[a].push_back(b);
+            ++edge_counter_dir;
         }
     }
     edges = edge_counter;
+    edges_dir = edge_counter_dir;
 }
 int main(int argc, char** argv)
 {
@@ -105,13 +108,14 @@ int main(int argc, char** argv)
     std::ofstream outfile3(path3);
 
     size_t edges;
+    size_t edges_dir;
     size_t nodes;
     bool directed;
     std::vector<std::vector<unsigned long long>> adj;
     std::vector<std::vector<unsigned long long>> adj_dir;
     std::vector<unsigned long long> renamed;
 
-    read_graph(input, nodes, edges, directed, adj, adj_dir, renamed);
+    read_graph(input, nodes, edges, edges_dir, directed, adj, adj_dir, renamed);
 
     printAdjacencyList(adj, nodes, edges, directed, outfile1);
     if (directed) {
