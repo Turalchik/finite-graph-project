@@ -12,9 +12,9 @@ typedef unsigned long long uint64;
 class FastGraphReader {
     std::ifstream file_;
     char* buffer_;
-    size_t bufferSize_;
-    size_t position_;
-    size_t dataSize_;
+    uint64 bufferSize_;
+    uint64 position_;
+    uint64 dataSize_;
 
     void fillBuffer_() {
         file_.read(buffer_, bufferSize_);
