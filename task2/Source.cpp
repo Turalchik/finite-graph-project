@@ -35,7 +35,7 @@ int main() {
         std::cout << "Loop worked for: " << double(duration_cast<microseconds>(stop - start).count()) / 1e6 << "s\n";
         std::cout << "MAE: " << mae / n << '\n' << "MAPE: " << mape / n;
     }
-    catch (std::exception& ex) {
+    catch (std::runtime_error& ex) {
         std::cout << ex.what();
     }
 

@@ -241,7 +241,7 @@ public:
 
 
 		if (vertices > maxVertixNumber) {
-			throw std::exception(std::string("The number of vertices is limited by " + std::to_string(maxVertixNumber)).c_str());
+			throw std::runtime_error(("The number of vertices is limited by " + std::to_string(maxVertixNumber)).c_str());
 		}
 		graph_.resize(vertices);
 
@@ -288,12 +288,12 @@ public:
 			s = internalVertixName(s);
 			t = internalVertixName(t);
 			if (s == Graph::maxVertixNumber || t == Graph::maxVertixNumber) {
-				throw std::exception("One of the vertices (s, t) doesn't exist.");
+				throw std::runtime_error("One of the vertices (s, t) doesn't exist.");
 			}
 		}
 		else {
 			if (s >= vertixNumber() || t >= vertixNumber()) {
-				throw std::exception("One of the vertices (s, t) doesn't exist.");
+				throw std::runtime_error("One of the vertices (s, t) doesn't exist.");
 			}
 		}
 
@@ -337,7 +337,7 @@ public:
 			LandmarksSelection::randomSelection(*this, landmarks, k);
 		}
 		else {
-			throw std::exception("Unknown landmark selection method, available options: LandmarksSelection::availableSelectionMethods");
+			throw std::runtime_error("Unknown landmark selection method, available options: LandmarksSelection::availableSelectionMethods");
 		}
 
 	}
