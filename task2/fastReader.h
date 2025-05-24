@@ -7,14 +7,14 @@ typedef unsigned long long uint64;
 
 #include <fstream>
 #include <vector>
-#include <string>
+#include <string> 
 
 class FastGraphReader {
     std::ifstream file_;
     char* buffer_;
-    uint64 bufferSize_;
-    uint64 position_;
-    uint64 dataSize_;
+    size_t bufferSize_;
+    size_t position_;
+    size_t dataSize_;
 
     void fillBuffer_() {
         file_.read(buffer_, bufferSize_);
@@ -63,10 +63,37 @@ public:
         }
 
         if (!found) {
-            throw std::runtime_error("Invalid number format");
+            throw std::runtime_error("Wrong file format.");
         }
 
         return result;
+    }
+
+    void parseFirstLine(uint64& vertices, uint64& edges, char& direction) {
+        vertices = parseInt();
+        edges = parseInt();
+        char c;
+        bool found = false;
+        while (true) {
+            if (position_ >= dataSize_) {
+                if (file_.eof()) {
+                    break;
+                }
+                fillBuffer_();
+                if (dataSize_ == 0) {
+                    break;
+                }
+            }
+            c = buffer_[position_++];
+            if (std::isalpha(c)) {
+                found = true;
+                direction = c;
+                break;
+            }
+        }
+        if (!found) {
+            throw std::runtime_error("Wrong file format.");
+        }
     }
 
     ~FastGraphReader() {

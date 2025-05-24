@@ -1,14 +1,14 @@
 #ifndef LANDMARKSBFSALGORITHM
 #define LANDMARKSBFSALGORITHM
 
-#include "undirectedGraph.h"
+#include "graph.h"
 #include <omp.h>
 
 class LandmarksBFS {
 	std::vector<std::vector<uint32>> SPTs_;
 	std::vector<uint32> landmarks_;
 
-	void BFSPrecompute_(const UndirectedGraph& graph, uint32 s, uint32 index) {
+	void BFSPrecompute_(const Graph& graph, uint32 s, uint32 index) {
 		std::queue<uint32> q;
 		q.push(s);
 		uint32 v;
@@ -16,7 +16,7 @@ class LandmarksBFS {
 			v = q.front();
 			q.pop();
 			for (auto u : graph.internalAdj(v)) {
-				if (SPTs_[index][u] == UndirectedGraph::maxVertixNumber) {
+				if (SPTs_[index][u] == Graph::maxVertixNumber) {
 					SPTs_[index][u] = v;
 					q.push(u);
 				}
@@ -24,7 +24,7 @@ class LandmarksBFS {
 		}
 	}
 
-	uint32 BFSCompute_(const UndirectedGraph& graph, std::vector<uint32>& dist, uint32 s, uint32 t) const {
+	uint32 BFSCompute_(const Graph& graph, std::vector<uint32>& dist, uint32 s, uint32 t) const {
 		dist[s] = 0;
 		std::queue<uint32> q;
 		q.push(s);
@@ -33,7 +33,7 @@ class LandmarksBFS {
 			v = q.front();
 			q.pop();
 			for (auto u : graph.internalAdj(v)) {
-				if (dist[u] == UndirectedGraph::maxVertixNumber) {
+				if (dist[u] == Graph::maxVertixNumber) {
 					dist[u] = dist[v] + 1;
 					q.push(u);
 				}
@@ -46,7 +46,7 @@ class LandmarksBFS {
 	}
 
 	void fillWithPath_(std::unordered_set<uint32>& pathVertices, uint64 w, uint32 index) const {
-		if (SPTs_[index][w] == UndirectedGraph::maxVertixNumber) {
+		if (SPTs_[index][w] == Graph::maxVertixNumber) {
 			return;
 		}
 		uint32 v = w;
@@ -63,8 +63,8 @@ public:
 	* @param[in] k: desired number of landmarks, k = min(k, graph.vertixNumber());
 	* @param[in] M: desired number of shortest paths will be collected, specify only if best-coverage method selected
 	*/
-	LandmarksBFS(const UndirectedGraph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) :
-		SPTs_(k, std::vector<uint32>(graph.vertixNumber(), UndirectedGraph::maxVertixNumber)) {
+	LandmarksBFS(const Graph& graph, const std::string& landmarkSelectionMethod, uint32 k, uint32 M = 0) :
+		SPTs_(k, std::vector<uint32>(graph.vertixNumber(), Graph::maxVertixNumber)) {
 
 		graph.chooseMethodByString(landmarks_, landmarkSelectionMethod, k, M);
 
@@ -75,14 +75,14 @@ public:
 		}
 	}
 
-	uint32 computeApproximateDistance(const UndirectedGraph& graph, uint64 s, uint64 t, bool internalVertixRepresentationPassed = false) const {
+	uint32 computeApproximateDistance(const Graph& graph, uint64 s, uint64 t, bool internalVertixRepresentationPassed = false) const {
 		if (s == t) {
 			return 0;
 		}
 		if (!internalVertixRepresentationPassed) {
 			s = graph.internalVertixName(s);
 			t = graph.internalVertixName(t);
-			if (s == UndirectedGraph::maxVertixNumber || t == UndirectedGraph::maxVertixNumber) {
+			if (s == Graph::maxVertixNumber || t == Graph::maxVertixNumber) {
 				throw std::exception("One of the vertices (s, t) doesn't exist.");
 			}
 		}
@@ -102,7 +102,7 @@ public:
 
 		std::vector<uint32> dist(graph.vertixNumber(), 0);
 		for (auto v : pathVertices) {
-			dist[v] = UndirectedGraph::maxVertixNumber;
+			dist[v] = Graph::maxVertixNumber;
 		}
 		return BFSCompute_(graph, dist, s, t);
 	}

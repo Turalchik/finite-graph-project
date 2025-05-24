@@ -8,7 +8,7 @@ using namespace std::chrono;
 int main() {
     try {
         auto start = high_resolution_clock::now();
-        UndirectedGraph graph("datasets/undirected/ca-coauthors-dblp.txt");
+        Graph graph("datasets/undirected/ca-coauthors-dblp.txt");
         auto stop = high_resolution_clock::now();
         std::cout << "File loaded for: " << double(duration_cast<microseconds>(stop - start).count()) / 1e6 << "s\n";
         LandmarksBFS basic(graph, "best-coverage", 300, 1000);
